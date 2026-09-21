@@ -1,0 +1,54 @@
+void setup() {
+  pinMode(gasSensor, INPUT);
+  pinMode(led, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(button, INPUT_PULLUP);
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  lcd.setCursor(0, 0);
+  lcd.print("SMOKE SYSTEM");
+  lcd.setCursor(0, 1);
+  lcd.print("STARTING...");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  smokeValue = analogRead(gasSensor);
+  Serial.print("Smoke Value: ");
+  Serial.println(smokeValue);
+
+  if (smokeValue >= 900) {
+    alarmActive = true;
+  }
+
+  if (alarmActive == true) {
+    digitalWrite(led, HIGH);
+    tone(buzzer, 523);
+    lcd.setCursor(0, 0);
+    lcd.print("SMOKE DETECTED");
+    lcd.setCursor(0, 1);
+    lcd.print("PRESS RESET");
+
+    if (digitalRead(button) == LOW) {
+      alarmActive = false;
+      digitalWrite(led, LOW);
+      noTone(buzzer);
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("SYSTEM RESET");
+      delay(1500);
+      lcd.clear();
+    }
+  }
+
+  if (alarmActive == false) {
+    digitalWrite(led, LOW);
+    noTone(buzzer);
+    lcd.setCursor(0, 0);
+    lcd.print("SYSTEM NORMAL");
+    lcd.setCursor(0, 1);
+    lcd.print("NO SMOKE");
+    delay(200);
+  }
+}
