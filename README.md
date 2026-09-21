@@ -43,12 +43,3 @@ This system detects dangerous smoke levels using an MQ-2 gas sensor. When smoke 
 4. In alarm state: LED turns on, buzzer sounds at 523 Hz, LCD shows "SMOKE DETECTED / PRESS RESET".
 5. Pressing the pushbutton clears the alarm and returns the system to "SYSTEM NORMAL / NO SMOKE".
 
-## Code
-
-The full Arduino sketch is in [`smoke_detection.ino`](smoke_detection.ino).
-
-```cpp
-#include <LiquidCrystal.h>
-
-LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
-bool alarmActive = false;
